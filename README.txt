@@ -1,1 +1,1 @@
-Saed Voice + Location PWA v3.3: robust concurrent Android/Chrome geolocation using cached/current, network/Wi-Fi watch, and high-accuracy GPS refinement; clearer error diagnostics; voice command موقعیت من triggers the same location pipeline.
+Saed Voice Calendar PWA v4. Google Calendar read-only via OAuth; voice command: کارهای امروز من. Reminder Saed items are included when synced into Google Calendar; local tasks are also read.

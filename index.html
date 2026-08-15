@@ -1,7 +1,50 @@
-<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0f766e"><link rel="manifest" href="manifest.webmanifest"><title>دستور صوتی و مکان‌یاب سعید</title><style>
-*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f5f7fb;color:#111827}main{max-width:720px;margin:auto;padding:24px 18px 70px}h1{text-align:center;font-size:29px;margin:22px 0}.card{background:#fff;border-radius:28px;padding:24px;margin:18px 0;box-shadow:0 8px 28px #0001}button{width:100%;border:0;border-radius:22px;padding:21px 14px;margin:8px 0;font-size:22px;font-weight:700;color:#fff;background:#1976bd}.green{background:#078a66}.dark{background:#111827}.red{background:#b42318}.amber{background:#a15c00}.status{font-size:18px;line-height:1.9;margin:10px 0}.box{background:#f1f5f9;border-radius:16px;padding:14px;margin-top:10px;word-break:break-word}.ok{color:#087a55}.err{color:#b42318}.warn{color:#a15c00}input{width:100%;padding:18px;border:1px solid #cbd5e1;border-radius:18px;font-size:20px;text-align:right}
-</style></head><body><main><h1>🎙️ دستور صوتی و مکان‌یاب سعید — v3.3</h1>
-<section class="card"><button id="micTest" class="dark">🔎 تست میکروفون</button><button id="voiceBtn">🎤 شروع فرمان صوتی</button><button id="stopBtn" class="red" hidden>⏹ توقف</button><div id="voiceStatus" class="status">آماده تست</div><div id="heard" class="box">هنوز عبارتی دریافت نشده است.</div><div id="diag" class="box"></div></section>
-<section class="card"><button id="locBtn" class="green">📍 موقعیت فعلی من</button><div id="location" class="status">آماده مکان‌یابی</div><button id="shareBtn" class="dark">اشتراک‌گذاری موقعیت</button></section>
-<section class="card"><input id="taskInput" placeholder="کار روزانه را وارد کنید"><button id="addBtn" class="dark">افزودن کار</button><button id="readBtn" class="green">🔊 خواندن کارهای امروز</button><div id="tasks" class="status"></div></section>
+<!doctype html><html lang="fa" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f766e"><link rel="manifest" href="manifest.webmanifest">
+<title>دستور صوتی سعید</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f5f7fb;color:#111827}
+main{max-width:720px;margin:auto;padding:24px 18px 70px}h1{text-align:center;font-size:28px}
+.card{background:#fff;border-radius:26px;padding:22px;margin:16px 0;box-shadow:0 8px 28px #0001}
+button{width:100%;border:0;border-radius:20px;padding:19px 12px;margin:7px 0;font-size:20px;font-weight:700;color:#fff;background:#1976bd}
+.green{background:#078a66}.dark{background:#111827}.red{background:#b42318}.purple{background:#6d28d9}
+.status{font-size:18px;line-height:1.9}.box{background:#f1f5f9;border-radius:15px;padding:13px;margin-top:9px;word-break:break-word}
+.ok{color:#087a55}.err{color:#b42318}.warn{color:#a15c00}
+input{width:100%;padding:16px;border:1px solid #cbd5e1;border-radius:16px;font-size:18px;text-align:left;margin:6px 0}
+</style></head><body><main>
+<h1>🎙️ دستور صوتی سعید — v4 Calendar</h1>
+
+<section class="card">
+<button id="micTest" class="dark">🔎 تست میکروفون</button>
+<button id="voiceBtn">🎤 شروع فرمان صوتی</button>
+<button id="stopBtn" class="red" hidden>⏹ توقف</button>
+<div id="voiceStatus" class="status">آماده دریافت فرمان</div>
+<div id="heard" class="box">بگو: «کارهای امروز من» یا «موقعیت من»</div>
+</section>
+
+<section class="card">
+<h2>📅 Google Calendar</h2>
+<input id="clientId" placeholder="Google OAuth Client ID">
+<button id="saveClient" class="dark">ذخیره Client ID</button>
+<button id="googleBtn" class="purple">اتصال به Google Calendar</button>
+<button id="todayBtn" class="green">🔊 خواندن کارهای امروز</button>
+<div id="calStatus" class="status">هنوز به Google Calendar متصل نشده است.</div>
+<div id="todayList" class="box"></div>
+</section>
+
+<section class="card">
+<button id="locBtn" class="green">📍 موقعیت فعلی من</button>
+<div id="location" class="status">آماده مکان‌یابی</div>
+<button id="shareBtn" class="dark">اشتراک‌گذاری موقعیت</button>
+</section>
+
+<section class="card">
+<h2>📝 کارهای محلی / یادآور</h2>
+<input id="taskInput" placeholder="کار روزانه را وارد کنید">
+<button id="addBtn" class="dark">افزودن کار</button>
+<div id="tasks" class="status"></div>
+<div class="box">اگر «یادآور صوتی سعید» رویدادهایش را با Google Calendar همگام کند، همان موارد نیز در «کارهای امروز من» خوانده می‌شوند.</div>
+</section>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="app.js"></script></main></body></html>

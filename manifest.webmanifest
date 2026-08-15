@@ -1,6 +1,6 @@
 {
-  "name": "دستور صوتی و مکان‌یاب سعید v3",
-  "short_name": "فرمان سعید",
+  "name": "دستور صوتی سعید - Calendar",
+  "short_name": "دستور سعید",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
