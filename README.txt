@@ -1,1 +1,1 @@
-Saed Voice + Location PWA v2. Persian speech recognition (fa-IR), GPS, location sharing, daily tasks, TTS, offline shell.
+Saed Voice + Location PWA v3: microphone diagnostics, explicit SpeechRecognition start timeout/error display, two-stage GPS with cached/quick fix plus high-accuracy refinement.

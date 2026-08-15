@@ -1,45 +1,7 @@
-<!doctype html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f766e">
-<link rel="manifest" href="manifest.webmanifest">
-<title>دستور صوتی و مکان‌یاب سعید</title>
-<style>
-*{box-sizing:border-box} body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f5f7fb;color:#111827}
-main{max-width:720px;margin:auto;padding:28px 18px 70px} h1{text-align:center;font-size:30px;margin:28px 0}
-.card{background:#fff;border-radius:28px;padding:24px;margin:18px 0;box-shadow:0 8px 28px #00000012}
-button{width:100%;border:0;border-radius:22px;padding:23px 16px;margin:8px 0;font-size:24px;font-weight:700;color:white;background:#1671b9}
-.green{background:#0b8b67}.dark{background:#111827}.stop{background:#b42318}
-.status{font-size:20px;line-height:1.8;margin:12px 0}.small{font-size:16px;color:#6b7280}
-input{width:100%;padding:20px;border:1px solid #cbd5e1;border-radius:18px;font-size:21px;text-align:right}
-#heard{font-weight:700;color:#0b6bcb;min-height:35px}.ok{color:#087a55}.err{color:#b42318}
-</style>
-</head>
-<body><main>
-<h1>🎙️ دستور صوتی و مکان‌یاب سعید</h1>
-
-<section class="card">
-<button id="voiceBtn">🎤 شروع فرمان صوتی</button>
-<button id="stopBtn" class="stop" hidden>⏹ توقف شنیدن</button>
-<div id="voiceStatus" class="status">آماده دریافت فرمان فارسی</div>
-<div id="heard"></div>
-<div class="small">نمونه: «موقعیت من»، «کارهای امروز»، «ساعت چند است»</div>
-</section>
-
-<section class="card">
-<button id="locBtn" class="green">📍 موقعیت فعلی من</button>
-<div id="location" class="status">برای دریافت مختصات دکمه بالا را بزنید.</div>
-<button id="shareBtn" class="dark">اشتراک‌گذاری موقعیت</button>
-</section>
-
-<section class="card">
-<input id="taskInput" placeholder="کار روزانه را وارد کنید">
-<button id="addBtn" class="dark">افزودن کار</button>
-<button id="readBtn" class="green">🔊 خواندن کارهای امروز</button>
-<div id="tasks" class="status"></div>
-</section>
-
-<script src="app.js"></script>
-</main></body></html>
+<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0f766e"><link rel="manifest" href="manifest.webmanifest"><title>دستور صوتی و مکان‌یاب سعید</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f5f7fb;color:#111827}main{max-width:720px;margin:auto;padding:24px 18px 70px}h1{text-align:center;font-size:29px;margin:22px 0}.card{background:#fff;border-radius:28px;padding:24px;margin:18px 0;box-shadow:0 8px 28px #0001}button{width:100%;border:0;border-radius:22px;padding:21px 14px;margin:8px 0;font-size:22px;font-weight:700;color:#fff;background:#1976bd}.green{background:#078a66}.dark{background:#111827}.red{background:#b42318}.amber{background:#a15c00}.status{font-size:18px;line-height:1.9;margin:10px 0}.box{background:#f1f5f9;border-radius:16px;padding:14px;margin-top:10px;word-break:break-word}.ok{color:#087a55}.err{color:#b42318}.warn{color:#a15c00}input{width:100%;padding:18px;border:1px solid #cbd5e1;border-radius:18px;font-size:20px;text-align:right}
+</style></head><body><main><h1>🎙️ دستور صوتی و مکان‌یاب سعید — v3</h1>
+<section class="card"><button id="micTest" class="dark">🔎 تست میکروفون</button><button id="voiceBtn">🎤 شروع فرمان صوتی</button><button id="stopBtn" class="red" hidden>⏹ توقف</button><div id="voiceStatus" class="status">آماده تست</div><div id="heard" class="box">هنوز عبارتی دریافت نشده است.</div><div id="diag" class="box"></div></section>
+<section class="card"><button id="locBtn" class="green">📍 موقعیت فعلی من</button><div id="location" class="status">آماده مکان‌یابی</div><button id="shareBtn" class="dark">اشتراک‌گذاری موقعیت</button></section>
+<section class="card"><input id="taskInput" placeholder="کار روزانه را وارد کنید"><button id="addBtn" class="dark">افزودن کار</button><button id="readBtn" class="green">🔊 خواندن کارهای امروز</button><div id="tasks" class="status"></div></section>
+<script src="app.js"></script></main></body></html>
