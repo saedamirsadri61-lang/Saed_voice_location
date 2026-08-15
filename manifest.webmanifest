@@ -1,0 +1,11 @@
+{
+  "name": "دستور صوتی و مکان‌یاب سعید",
+  "short_name": "فرمان سعید",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#0f766e",
+  "lang": "fa",
+  "dir": "rtl"
+}

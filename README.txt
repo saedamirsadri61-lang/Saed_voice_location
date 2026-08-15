@@ -1,0 +1,1 @@
+Saed Voice + Location PWA v2. Persian speech recognition (fa-IR), GPS, location sharing, daily tasks, TTS, offline shell.
