@@ -1,1 +1,1 @@
-Saed Voice + Location PWA v3: microphone diagnostics, explicit SpeechRecognition start timeout/error display, two-stage GPS with cached/quick fix plus high-accuracy refinement.
+Saed Voice + Location PWA v3.3: robust concurrent Android/Chrome geolocation using cached/current, network/Wi-Fi watch, and high-accuracy GPS refinement; clearer error diagnostics; voice command موقعیت من triggers the same location pipeline.

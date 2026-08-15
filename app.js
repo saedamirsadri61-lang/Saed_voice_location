@@ -37,19 +37,50 @@ async function startVoice(){
 }
 $('voiceBtn').onclick=startVoice;$('stopBtn').onclick=()=>{try{rec?.stop()}catch{}};
 
-function handle(raw){let t=raw.replace(/ي/g,'ی').replace(/ك/g,'ک').trim();if(t.includes('موقعیت')||t.includes('کجام'))getLocation(true);else if(t.includes('کارهای امروز')||t.includes('وظایف'))readTasks();else if(t.includes('ساعت'))speak('ساعت '+new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'})+' است');else speak('فرمان دریافت شد: '+t)}
+function handle(raw){
+ let t=raw.replace(/ي/g,'ی').replace(/ك/g,'ک').replace(/[\u200c\u200f\u202a-\u202e]/g,' ').replace(/\s+/g,' ').trim();
+ if(t.includes('موقعیت')||t.includes('کجام')||t.includes('کجا هستم')){
+  $('voiceStatus').innerHTML='<span class=\"ok\">✓ فرمان موقعیت دریافت شد؛ GPS در حال اجراست…</span>';
+  try{rec?.stop()}catch{}
+  getLocation(true);
+  setTimeout(()=>document.getElementById('locBtn')?.scrollIntoView({behavior:'smooth',block:'center'}),150);
+  return;
+ }
+ if(t.includes('کارهای امروز')||t.includes('وظایف'))return readTasks();
+ if(t.includes('ساعت'))return speak('ساعت '+new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'})+' است');
+ speak('فرمان دریافت شد: '+t)
+}
 
 function showPos(p,label='موقعیت'){lastPosition=p;let c=p.coords;$('location').innerHTML=`<span class="ok">${label}</span><br>عرض: ${c.latitude.toFixed(6)}<br>طول: ${c.longitude.toFixed(6)}<br>دقت تقریبی: ${Math.round(c.accuracy)} متر`}
+let locRun=0,fastWatch=null,preciseWatch=null,locTimers=[];
+function clearLocationRun(){
+ if(fastWatch!==null){try{navigator.geolocation.clearWatch(fastWatch)}catch{} fastWatch=null}
+ if(preciseWatch!==null){try{navigator.geolocation.clearWatch(preciseWatch)}catch{} preciseWatch=null}
+ locTimers.forEach(clearTimeout);locTimers=[];
+}
+function geoErr(e){
+ const m={1:'اجازه مکان‌یابی رد شده است.',2:'سرویس مکان فعلاً موقعیت را پیدا نکرد.',3:'زمان دریافت موقعیت تمام شد.'};
+ return (m[e?.code]||e?.message||'خطای نامشخص مکان‌یابی')+(e?.code?' (کد '+e.code+')':'');
+}
 function getLocation(say=false){
  if(!navigator.geolocation){$('location').innerHTML='<span class="err">Geolocation موجود نیست.</span>';return}
- $('location').textContent='در حال دریافت سریع موقعیت…';
- navigator.geolocation.getCurrentPosition(p=>{showPos(p,'موقعیت سریع');if(say)speak('موقعیت شما دریافت شد');refine()},e=>{ $('location').innerHTML='<span class="warn">موقعیت سریع دریافت نشد؛ در حال تلاش برای GPS دقیق‌تر…</span>';refine(say)}, {enableHighAccuracy:false,timeout:10000,maximumAge:300000});
-}
-function refine(say=false){
- if(watchId!==null)navigator.geolocation.clearWatch(watchId);
- let best=lastPosition,done=false;
- watchId=navigator.geolocation.watchPosition(p=>{if(!best||p.coords.accuracy<best.coords.accuracy){best=p;showPos(p,'موقعیت به‌روزشده')}if(p.coords.accuracy<=50){navigator.geolocation.clearWatch(watchId);watchId=null;if(say)speak('موقعیت دقیق‌تر دریافت شد')}},e=>{if(!best)$('location').innerHTML='<span class="err">موقعیت دریافت نشد: '+e.message+'</span>'},{enableHighAccuracy:true,timeout:60000,maximumAge:60000});
- setTimeout(()=>{if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;if(!best)$('location').innerHTML='<span class="err">پس از ۶۰ ثانیه موقعیتی دریافت نشد.</span>'}},65000)
+ clearLocationRun(); const run=++locRun; lastPosition=null;
+ let got=false,spoken=false,lastErr='';
+ const accept=(p,label)=>{if(run!==locRun)return;got=true;if(!lastPosition||p.coords.accuracy<=lastPosition.coords.accuracy){showPos(p,label)}if(say&&!spoken){spoken=true;speak('موقعیت شما دریافت شد')}};
+ const fail=e=>{if(run!==locRun)return;lastErr=geoErr(e)};
+ $('location').innerHTML='<span class="warn">در حال جستجوی موقعیت از شبکه، وای‌فای و GPS…</span>';
+ // سه مسیر همزمان: cached/current کم‌مصرف + watch کم‌دقت + GPS دقیق.
+ navigator.geolocation.getCurrentPosition(p=>accept(p,'موقعیت سریع'),fail,{enableHighAccuracy:false,timeout:15000,maximumAge:Infinity});
+ try{fastWatch=navigator.geolocation.watchPosition(p=>{accept(p,'موقعیت شبکه/وای‌فای');if(p.coords.accuracy<=150&&fastWatch!==null){navigator.geolocation.clearWatch(fastWatch);fastWatch=null}},fail,{enableHighAccuracy:false,timeout:30000,maximumAge:600000})}catch(e){lastErr=e.message}
+ locTimers.push(setTimeout(()=>{
+  if(run!==locRun)return;
+  try{preciseWatch=navigator.geolocation.watchPosition(p=>{accept(p,'موقعیت دقیق‌تر');if(p.coords.accuracy<=50&&preciseWatch!==null){navigator.geolocation.clearWatch(preciseWatch);preciseWatch=null}},fail,{enableHighAccuracy:true,timeout:45000,maximumAge:300000})}catch(e){lastErr=e.message}
+ },1200));
+ locTimers.push(setTimeout(()=>{
+  if(run!==locRun)return;
+  if(!got)$('location').innerHTML='<span class="err">هیچ موقعیتی از Android/Chrome دریافت نشد.<br>'+ (lastErr||'GPS و شبکه پاسخی ندادند.') +'<br>یک‌بار Google Maps را باز کنید تا نقطه آبی نمایش داده شود، سپس به این صفحه برگردید و دوباره امتحان کنید.</span>';
+  clearLocationRun();
+ },50000));
 }
 $('locBtn').onclick=()=>getLocation(false);
 $('shareBtn').onclick=async()=>{if(!lastPosition){getLocation(false);return}let c=lastPosition.coords,u=`https://maps.google.com/?q=${c.latitude},${c.longitude}`;try{navigator.share?await navigator.share({title:'موقعیت سعید',url:u}):await navigator.clipboard.writeText(u)}catch{}};
